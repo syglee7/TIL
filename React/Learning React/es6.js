@@ -29,7 +29,7 @@ const display = target => time => target(time);
 const formatClock = format =>
     time =>
         format.replace("hh", time.hours)
-            .replace("mm", time.minute)
+            .replace("mm", time.minutes)
             .replace("ss", time.seconds)
             .replace("tt", time.ampm);
 
@@ -40,6 +40,12 @@ const prependZero = key => clockTime => ({
 });
 
 // 이제까지는 시계를 움직이기 위해 필요한 함수를 만든고거 이제 이 함수들을 합성해야 한다. compose 함수 사용
+const compose = (...fns) =>
+    (arg) =>
+        fns.reduce(
+            (composed, f) => f(composed),
+            arg
+        );
 
 // 24시간제 시각을 받아서 상용시로 변환하는 함수다.
 const convertToCivilianTime = clockTime =>
