@@ -1,8 +1,5 @@
 module.exports = (sequelize, Datatypes) => {
     return sequelize.define('comment' , {
-        commenter : {
-
-        },
         comment: {
             type: Datatypes.STRING(100),
             allowNull: false,
