@@ -8,6 +8,7 @@ const passport = require('passport');
 require('dotenv').config(); //.env 파일이 process.env 에 들어감
 
 const indexRouter = require('./routes/page');
+const authRouter = require('./routes/auth');
 //const userRouter = require('./routes/user');
 const { sequelize } = require('./models');
 const passportConfig = require('./passport');
@@ -36,9 +37,12 @@ app.use(session({
 
 app.use(flash());
 app.use(passport.initialize());
+// 매 요청시마다 여기에 걸리면 deserializeUser 가 실행됨
+// user.id 를 DB 조회 후 req.user 로
 app.use(passport.session());
 
 app.use('/', indexRouter);
+app.use('/auth', authRouter);
 
 app.use((req, res, next) => {
     const err = new Error('Not Found');

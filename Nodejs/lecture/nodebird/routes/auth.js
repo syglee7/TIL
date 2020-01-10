@@ -29,7 +29,7 @@ router.post('/join', isNotLoggedIn, async (req, res, next) => {
    }
 });
 
-router.post('/login', (req, res, next) => { // req.body.email, req.body.password
+router.post('/login', isNotLoggedIn,(req, res, next) => { // req.body.email, req.body.password
     passport.authenticate('local', (authError, user, info) => {
         if (authError) {
             console.Error(authError);
@@ -41,7 +41,7 @@ router.post('/login', (req, res, next) => { // req.body.email, req.body.password
             return res.redirect('/');
         }
 
-        return req.login(user, (loginError) => { //req.user
+        return req.login(user, (loginError) => { //req.user (세션에다 저장 할때 passport 실행)
            if (loginError) {
                console.error(loginError);
                return next(loginError);
@@ -50,6 +50,15 @@ router.post('/login', (req, res, next) => { // req.body.email, req.body.password
            return res.redirect('/');
         });
     })(req, res, next);
+});
+
+// GET /auth/logout
+
+router.get('/logout', isLoggedIn, (req, res) => {
+    req.logout();
+    req.session.destroy(); //req.user  다른 세선도 같이 지워짐
+    res.redirect('/');
+
 });
 
 module.exports = router;
