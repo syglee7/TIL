@@ -1,8 +1,6 @@
 const local = require('./localStrategy');
-const kakao = require('./kakakoStrategy');
+const kakao = require('./kakaoStrategy');
 const { User } = require('../models');
-
-const user = {};
 
 module.exports = (passport) => {
     // 로그인 할 때 한번만 호출된다
@@ -14,15 +12,11 @@ module.exports = (passport) => {
     // 요청이 갈 때마다 매번 호출된다.
     passport.deserializeUser((id, done) => {
 
-        if (user[id]) {
-            done(user[id]);
-        } else {
-            User.find({ where : { id } }) // 이 결과가 req.user 에 저장
-                .then(user => user[id] = user, done(null, user))
-                .catch(err => done(err));
-        }
+        User.find({ where : { id } }) // 이 결과가 req.user 에 저장
+            .then(user => done(null, user))
+            .catch(err => done(err));
     });
 
     local(passport);
-    //kakao(passport);
+    kakao(passport);
 };

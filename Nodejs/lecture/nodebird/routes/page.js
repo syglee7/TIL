@@ -1,4 +1,5 @@
 const express = require('express');
+const { Post, User } = require('../models');
 const router = express.Router();
 const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
 
@@ -17,12 +18,24 @@ router.get('/join', isNotLoggedIn, (req, res) => {
 });
 // 메인 페이지
 router.get('/', (req, res, next) => {
-    res.render('main', {
-        title: 'NodeBird',
-        twits : [],
-        user: req.user, //deserializeUser가 실행 될 때 불러온 값
-        loginError: req.flash('loginError'),
-    });
+    Post.findAll({
+        include: { // mysql join
+            model: User,
+            attributes: ['id', 'nick'],
+        },
+    })
+        .then((posts) => {
+            res.render('main', {
+                title: 'NodeBird',
+                twits : posts,
+                user: req.user, //deserializeUser가 실행 될 때 불러온 값
+                loginError: req.flash('loginError'),
+            });
+        })
+        .catch((error) => {
+            console.error(error);
+            next(error);
+        });
 });
 
 module.exports = router;
