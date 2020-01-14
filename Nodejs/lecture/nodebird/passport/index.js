@@ -12,7 +12,18 @@ module.exports = (passport) => {
     // 요청이 갈 때마다 매번 호출된다.
     passport.deserializeUser((id, done) => {
 
-        User.find({ where : { id } }) // 이 결과가 req.user 에 저장
+        User.find({
+            where : { id },
+            include: [{
+                model: User,
+                attributes: ['id', 'nick'],
+                as: 'Followers',
+            }, {
+                model: User,
+                attributes: ['id', 'nick'],
+                as: 'Followings',
+            }],
+        }) // 이 결과가 req.user 에 저장
             .then(user => done(null, user))
             .catch(err => done(err));
     });

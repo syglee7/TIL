@@ -3,7 +3,8 @@ const express = require('express');
 // 그리고 이거 해석하려면 multer 가 필요
 const multer = require('multer');
 const path = require('path');
-const { Post, Hashtag } = require('../models');
+const { User , Post, Hashtag } = require('../models');
+const { isLoggedIn } = require('./middlewares');
 const router = express.Router();
 
 const upload = multer({
@@ -27,13 +28,13 @@ const upload = multer({
 * fields : 이미지 여러 개 (여러 필드)
 * none: 이미지 x
 * */
-router.post('/img', upload.single('img'), (req, res) => {// 'img' = input type='file' 의 name 값
+router.post('/img', isLoggedIn, upload.single('img'), (req, res) => {// 'img' = input type='file' 의 name 값
     console.log(req.body, req.file);
     res.json({ url: `/img/${req.file.filename }`});
 });
 
 const upload2 = multer();
-router.post('/', upload2.none(), async (req, res, next) => {
+router.post('/', isLoggedIn, upload2.none(), async (req, res, next) => {
     // 게시글 업로드
     try {
         const post = await Post.create({
@@ -70,8 +71,15 @@ router.get('/hashtag', async (req, res, next) => {
         const hashtag = await Hashtag.find({ where: { title: query }});
         let posts = [];
         if (hashtag) {
-            post = await hashtag.getPosts({ include})
+            posts = await hashtag.getPosts({ include : [ { model: User }]});
         }
+
+        return res.render('main', {
+            title: `${query} | NodeBird`,
+            user: req.user,
+            twits: posts,
+        });
+
 
     } catch (error) {
         console.error(error);

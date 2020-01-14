@@ -24,7 +24,7 @@ db.Hashtag.belongsToMany(db.Post, { through : 'PostHashTag' }) ;
 // 다대다 관계는 belongsToMany , though 에는 새로 생기는 모델 이름을 넣어준다 (매칭 테이블)
 
 db.User.belongsToMany(db.User, { through: 'Follow', as: 'Followers', foreignKey: 'followingId' });
-db.User.belongsToMany(db.User, { through: 'Follow', as: 'Following', foreignKey: 'followerId' });
+db.User.belongsToMany(db.User, { through: 'Follow', as: 'Followings', foreignKey: 'followerId' });
 
 db.User.belongsToMany(db.Post, { through: 'Like' });
 db.Post.belongsToMany(db.User, { through: 'Like' });
