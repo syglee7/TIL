@@ -15,14 +15,14 @@ exports.isNotLoggedIn = (req, res, next) => {
     }
 };
 
-exports.verify = (req, res, next) => {
+exports.verifyToken = (req, res, next) => {
     try {
         //jwt.verify(토큰, 시크릿)
         req.decoded = jwt.verify(req.headers.authorization, process.env.JWT_SECRET);
         return next();
     } catch (error) {
         if (error.name === 'TokenExpiredError') {
-            return res.status(419).json({
+            return res.status(419).json({ //토큰 만료 에러
                 code: 419,
                 message: '토큰이 만료 되었습니다.',
             });
