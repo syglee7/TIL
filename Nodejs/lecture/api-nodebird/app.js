@@ -7,12 +7,13 @@ const flash = require('connect-flash');
 const passport = require('passport');
 require('dotenv').config(); //.env 파일이 process. env에 들어감
 
+const { sequelize } = require('./models');
+const passportConfig = require('./passport');
+
 const authRouter = require('./routes/auth');
 const indexRouter = require('./routes');
 const v1 = require('./routes/v1');
-
-const { sequelize } = require('./models');
-const passportConfig = require('./passport');
+const v2 = require('./routes/v2');
 
 
 const app = express();
@@ -48,6 +49,7 @@ app.use(passport.session());
 app.use('/', indexRouter);
 app.use('/auth', authRouter);
 app.use('/v1', v1);
+app.use('/v2', v2);
 
 app.use((req, res, next) => {
     const err = new Error('Not Found');
