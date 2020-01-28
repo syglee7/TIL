@@ -1,17 +1,20 @@
 const path = require('path');
 
 module.exports = {
-    mode: 'development',
-    devtool: 'eval', //hidden-source-map
+    name: 'word-relay-setting',
+    mode: 'development', //실서비스 : production
+    devtool: 'eval',
     resolve: {
-      extensions: ['.jsx', '.js'],
+        extensions: ['.js', '.jsx']
     },
+
     entry: {
-        app: './client',
-    },
+        app: ['./client'],
+    }, // 입력
+
     module: {
         rules: [{
-            test:/\.jsx$/,
+            test: /\.jsx?/,
             loader: 'babel-loader',
             options: {
                 presets: [
@@ -23,13 +26,17 @@ module.exports = {
                     }],
                     '@babel/preset-react',
                 ],
-                plugins: [],
+                plugins: [
+                    '@babel/plugin-proposal-class-properties',
+                    'react-hot-loader/babel',
+                ],
             },
-        }],
+        }]
     },
-    plugins: [],
+
     output: {
-        filename: 'app.js',
         path: path.join(__dirname, 'dist'),
-    },
+        filename: '[name].js',
+        publicPath: '/dist',
+    }, //출력
 };
