@@ -56,6 +56,7 @@ module.exports = (server, app, sessionMiddleware) => {
     chat.on('connection', (socket) => {
        console.log('chat 네임 스페이스에 접속');
        const req = socket.request;
+       const { headers: { referer }} = req;
        const roomId = referer
            .split('/')[referer.split('/').length - 1]
            .replace(/\?.+/, '');
