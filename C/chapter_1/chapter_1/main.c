@@ -1,10 +1,10 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 
-int a;
-
 int main(void) {
-
-	printf("The number is %d. \n", a);
+	int a;
+	scanf("%d", &a);
+	printf("입력한 숫자는 %d 입니다 \n", a);
 	system("pause");
 	return 0;
 }
