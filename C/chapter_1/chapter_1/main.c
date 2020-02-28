@@ -2,9 +2,9 @@
 #include <stdio.h>
 
 int main(void) {
-	double a;
-	scanf("%lf", &a);
-	printf("%.2f\n", a);
+	int a, b;
+	scanf("%d %d", &a, &b);
+	printf("%d %d\n", b, a);
 	system("pause");
 	return 0;
 }
