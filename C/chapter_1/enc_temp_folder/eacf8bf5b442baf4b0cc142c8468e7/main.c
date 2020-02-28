@@ -16,5 +16,4 @@ double 일반적인 실수 8byte
 string 문자열을 표현할 때 사용
 bool 참/거짓 1bit
 char 한 문자를 표현할 때 사용 1byte
-scanf()는 입력받을 주소를 나타내기 위해 &을 사용함
 */
