@@ -35,12 +35,6 @@
 
     //  1) values
 
-    var _values = _map(_identity);
-
-    function _identity(val) {
-        return val;
-    }
-
     var a = 10;
     console.log( _identity(a) );
 
@@ -52,13 +46,40 @@
 
     //  2) pluck
 
-    function _pluck(data, key) {
-        return _map(data, _get(key));
-    }
-
    console.log(_pluck(users, 'age'));
    console.log(_pluck(users, 'name'));
    console.log(_pluck(users, 'id'));
+
+   // 2. 거르기 - filter
+    console.log(
+        _filter(users, function (user) {
+            return user.age > 30;
+        })
+    );
+
+    // 1) reject
+
+    function _negate(func) {
+        return function (val) {
+            return !func(val);
+        }
+    }
+    function _reject(data, predi) {
+        return _filter(data, _negate(predi));
+    }
+
+    console.log(
+        _reject(users, function (user) {
+            return user.age > 30;
+        })
+    );
+
+    var _compact = _filter(_identity);
+
+    console.log(
+        _compact([1, 2, 0, false, null, {}])
+    );
+    // 2) compact
 
 </script>
 </body>
