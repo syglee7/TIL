@@ -1,0 +1,23 @@
+{
+  "name": "lecture",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack"
+  },
+  "author": "zena",
+  "license": "ISC",
+  "dependencies": {
+    "@types/react": "^16.9.50",
+    "@types/react-dom": "^16.9.8",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "typescript": "^4.0.3"
+  },
+  "devDependencies": {
+    "awesome-typescript-loader": "^5.2.1",
+    "webpack": "^4.44.2",
+    "webpack-cli": "^3.3.12"
+  }
+}
